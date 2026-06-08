@@ -1,0 +1,2124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ACEAERO | Aerospace & Defense Innovation</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #020611;
+      --bg-2: #07111f;
+      --panel: rgba(7, 16, 32, 0.72);
+      --panel-2: rgba(255, 255, 255, 0.055);
+      --line: rgba(125, 210, 255, 0.23);
+      --line-strong: rgba(0, 213, 255, 0.55);
+      --text: #eef7ff;
+      --muted: #99a9bd;
+      --silver: #d8e3ed;
+      --blue: #00d5ff;
+      --blue-2: #2d77ff;
+      --navy: #061225;
+      --danger-glow: rgba(0, 213, 255, 0.32);
+      --radius-lg: 30px;
+      --radius-md: 20px;
+      --max: 1220px;
+      --shadow: 0 28px 100px rgba(0, 0, 0, 0.48);
+      --glow: 0 0 28px rgba(0, 213, 255, 0.28);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: "Inter", system-ui, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 18% 12%, rgba(0, 213, 255, 0.14), transparent 31%),
+        radial-gradient(circle at 82% 18%, rgba(45, 119, 255, 0.13), transparent 34%),
+        radial-gradient(circle at 50% 100%, rgba(0, 213, 255, 0.08), transparent 38%),
+        linear-gradient(180deg, #020611 0%, #030814 42%, #02040b 100%);
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    textarea {
+      font: inherit;
+    }
+
+    ::selection {
+      background: rgba(0, 213, 255, 0.26);
+      color: #ffffff;
+    }
+
+    #starfield {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .cursor-glow {
+      position: fixed;
+      width: 380px;
+      height: 380px;
+      border-radius: 50%;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle, rgba(0, 213, 255, 0.14), transparent 68%);
+      z-index: 1;
+      pointer-events: none;
+      mix-blend-mode: screen;
+    }
+
+    .noise {
+      position: fixed;
+      inset: 0;
+      z-index: 5;
+      pointer-events: none;
+      opacity: 0.07;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.55) 0 1px, transparent 1.4px);
+      background-size: 4px 4px;
+      mix-blend-mode: overlay;
+    }
+
+    .site-header,
+    main,
+    footer {
+      position: relative;
+      z-index: 2;
+    }
+
+    .glass {
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.025)),
+        rgba(4, 12, 27, 0.68);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow), inset 0 1px 0 rgba(255,255,255,0.08);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+    }
+
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 50;
+      pointer-events: none;
+    }
+
+    .nav-shell {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 18px auto 0;
+      padding: 13px 18px;
+      border-radius: 999px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 18px;
+      pointer-events: auto;
+    }
+
+    .brand {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(1.25rem, 2.2vw, 1.85rem);
+      font-weight: 700;
+      letter-spacing: 0.28em;
+      text-align: center;
+      color: #ffffff;
+      text-shadow: 0 0 22px rgba(0, 213, 255, 0.68);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .nav-links.right {
+      justify-content: flex-end;
+    }
+
+    .nav-links a {
+      position: relative;
+      transition: color 0.25s ease;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -7px;
+      width: 0%;
+      height: 1px;
+      background: var(--blue);
+      box-shadow: var(--glow);
+      transition: width 0.25s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    section {
+      scroll-margin-top: 110px;
+    }
+
+    .section {
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto;
+      padding: 120px 0;
+      position: relative;
+    }
+
+    .section-header {
+      max-width: 780px;
+      margin-bottom: 44px;
+    }
+
+    .section-header.center {
+      text-align: center;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      color: var(--blue);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 42px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--blue));
+      box-shadow: var(--glow);
+    }
+
+    .section h2 {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(2.1rem, 5vw, 4.8rem);
+      line-height: 0.94;
+      letter-spacing: -0.05em;
+      margin-bottom: 18px;
+    }
+
+    .lead {
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 1.03rem;
+    }
+
+    .hero {
+      min-height: 100vh;
+      width: 100%;
+      display: grid;
+      place-items: center;
+      padding: 130px 6vw 74px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-aurora,
+    .hero-orb,
+    .grid-horizon {
+      position: absolute;
+      pointer-events: none;
+    }
+
+    .hero-aurora {
+      inset: 0;
+      background:
+        radial-gradient(circle at 50% 35%, rgba(0, 213, 255, 0.12), transparent 28%),
+        radial-gradient(circle at 40% 55%, rgba(45, 119, 255, 0.14), transparent 25%);
+      filter: blur(12px);
+      opacity: 0.9;
+    }
+
+    .hero-orb {
+      width: min(680px, 80vw);
+      height: min(680px, 80vw);
+      border-radius: 50%;
+      border: 1px solid rgba(0, 213, 255, 0.2);
+      box-shadow: inset 0 0 80px rgba(0, 213, 255, 0.08), 0 0 120px rgba(0, 213, 255, 0.08);
+      animation: slowSpin 28s linear infinite;
+    }
+
+    .hero-orb::before,
+    .hero-orb::after {
+      content: "";
+      position: absolute;
+      inset: 10%;
+      border-radius: 50%;
+      border: 1px dashed rgba(216, 227, 237, 0.16);
+    }
+
+    .hero-orb::after {
+      inset: 26%;
+      border-style: solid;
+      border-color: rgba(0, 213, 255, 0.23);
+      filter: drop-shadow(0 0 18px rgba(0, 213, 255, 0.45));
+    }
+
+    .grid-horizon {
+      left: 50%;
+      bottom: -13%;
+      width: 150%;
+      height: 48%;
+      transform: translateX(-50%) perspective(520px) rotateX(67deg);
+      transform-origin: center top;
+      background-image:
+        linear-gradient(rgba(0, 213, 255, 0.18) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 213, 255, 0.18) 1px, transparent 1px);
+      background-size: 48px 48px;
+      mask-image: linear-gradient(to top, rgba(0,0,0,0.9), transparent 86%);
+      animation: gridMove 12s linear infinite;
+    }
+
+    .float-visual {
+      position: absolute;
+      opacity: 0.62;
+      filter: drop-shadow(0 0 28px rgba(0, 213, 255, 0.38));
+      animation: float 8s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    .float-visual svg {
+      width: 100%;
+      height: auto;
+    }
+
+    .drone-left {
+      width: min(260px, 28vw);
+      left: 6%;
+      top: 28%;
+      --rotate: -10deg;
+    }
+
+    .drone-right {
+      width: min(230px, 25vw);
+      right: 8%;
+      top: 18%;
+      --rotate: 13deg;
+      animation-delay: -2.5s;
+    }
+
+    .jet-bottom {
+      width: min(360px, 44vw);
+      left: 50%;
+      bottom: 11%;
+      opacity: 0.35;
+      --rotate: 0deg;
+      animation-delay: -4s;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 3;
+      max-width: 1060px;
+      text-align: center;
+    }
+
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      color: var(--silver);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      border: 1px solid rgba(0, 213, 255, 0.24);
+      background: rgba(255, 255, 255, 0.055);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), 0 0 28px rgba(0,213,255,0.1);
+    }
+
+    .hero h1 {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(4rem, 13vw, 11rem);
+      line-height: 0.82;
+      letter-spacing: 0.12em;
+      margin-right: -0.12em;
+      color: #ffffff;
+      text-shadow:
+        0 0 18px rgba(0, 213, 255, 0.52),
+        0 0 70px rgba(45, 119, 255, 0.28);
+    }
+
+    .tagline {
+      margin: 30px auto 0;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(1.35rem, 3.3vw, 3.2rem);
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+      max-width: 850px;
+      background: linear-gradient(90deg, #ffffff, #b7eaff 45%, #5bdfff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-copy {
+      max-width: 720px;
+      margin: 24px auto 0;
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 1.05rem;
+    }
+
+    .hero-actions {
+      margin-top: 36px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .btn {
+      position: relative;
+      min-height: 52px;
+      padding: 0 24px;
+      border-radius: 999px;
+      border: 1px solid rgba(0, 213, 255, 0.36);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      overflow: hidden;
+      color: #ffffff;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .btn::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.22), transparent);
+      transform: translateX(-120%) skewX(-18deg);
+      transition: transform 0.55s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      border-color: rgba(0, 213, 255, 0.82);
+      box-shadow: 0 0 34px rgba(0, 213, 255, 0.22);
+    }
+
+    .btn:hover::before {
+      transform: translateX(120%) skewX(-18deg);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, rgba(0, 213, 255, 0.95), rgba(45, 119, 255, 0.82));
+      box-shadow: 0 18px 45px rgba(0, 213, 255, 0.22);
+    }
+
+    .btn-ghost {
+      background: rgba(255, 255, 255, 0.055);
+      color: var(--silver);
+    }
+
+    .btn em {
+      width: 9px;
+      height: 9px;
+      border-top: 2px solid currentColor;
+      border-right: 2px solid currentColor;
+      transform: rotate(45deg);
+      display: inline-block;
+    }
+
+    .stat-strip {
+      margin: 48px auto 0;
+      max-width: 920px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .stat {
+      min-height: 112px;
+      border-radius: 22px;
+      padding: 18px;
+      position: relative;
+      overflow: hidden;
+      background: rgba(255, 255, 255, 0.045);
+      border: 1px solid rgba(0, 213, 255, 0.18);
+    }
+
+    .stat::after {
+      content: "";
+      position: absolute;
+      inset: auto 12px 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--blue), transparent);
+      opacity: 0.7;
+    }
+
+    .stat b {
+      display: block;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(1.65rem, 3vw, 2.65rem);
+      color: #ffffff;
+      text-shadow: 0 0 16px rgba(0,213,255,0.5);
+    }
+
+    .stat small {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .project-block {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+      gap: 24px;
+      align-items: stretch;
+      margin-top: 34px;
+      margin-bottom: 84px;
+    }
+
+    .project-block:last-child {
+      margin-bottom: 0;
+    }
+
+    .render-card,
+    .project-copy {
+      border-radius: var(--radius-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .render-card {
+      min-height: 520px;
+      padding: 26px;
+      display: grid;
+      place-items: center;
+      isolation: isolate;
+    }
+
+    .render-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,213,255,0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,213,255,0.1) 1px, transparent 1px);
+      background-size: 34px 34px;
+      mask-image: radial-gradient(circle, black 0%, transparent 78%);
+      opacity: 0.8;
+      z-index: -2;
+    }
+
+    .render-card::after {
+      content: "";
+      position: absolute;
+      width: 58%;
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,213,255,0.16), transparent 68%);
+      filter: blur(14px);
+      z-index: -1;
+      animation: pulseGlow 4.8s ease-in-out infinite;
+    }
+
+    .render-topbar,
+    .render-caption {
+      position: absolute;
+      left: 22px;
+      right: 22px;
+      z-index: 3;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    .render-topbar {
+      top: 18px;
+    }
+
+    .render-caption {
+      bottom: 18px;
+    }
+
+    .render-topbar i {
+      width: 9px;
+      height: 9px;
+      display: inline-block;
+      border-radius: 50%;
+      background: var(--blue);
+      box-shadow: 0 0 20px var(--blue);
+    }
+
+    .render-svg {
+      width: 100%;
+      max-width: 780px;
+      position: relative;
+      z-index: 2;
+    }
+
+    .render-svg .rotor {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: rotorSpin 0.72s linear infinite;
+    }
+
+    .render-svg .flow-line {
+      stroke-dasharray: 12 16;
+      animation: dash 10s linear infinite;
+    }
+
+    .render-svg .scan-circle {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: scanPulse 2.8s ease-in-out infinite;
+    }
+
+    .project-copy {
+      padding: clamp(26px, 4vw, 42px);
+    }
+
+    .project-number {
+      display: inline-flex;
+      color: var(--blue);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+
+    .project-copy h3 {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(2rem, 4vw, 3.45rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+      margin-bottom: 20px;
+    }
+
+    .project-copy p {
+      color: var(--muted);
+      line-height: 1.82;
+      font-size: 0.98rem;
+    }
+
+    .feature-grid {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 16px;
+      position: relative;
+    }
+
+    .feature-card {
+      min-height: 188px;
+      padding: 22px;
+      border-radius: 24px;
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(145deg, rgba(255,255,255,0.075), rgba(255,255,255,0.02)),
+        rgba(3, 12, 27, 0.72);
+      border: 1px solid rgba(0, 213, 255, 0.2);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+    }
+
+    .feature-card::before {
+      content: "";
+      position: absolute;
+      width: 132px;
+      height: 132px;
+      right: -48px;
+      bottom: -54px;
+      border: 1px solid rgba(0,213,255,0.28);
+      border-radius: 50%;
+      box-shadow: inset 0 0 22px rgba(0,213,255,0.08);
+      animation: slowSpin 9s linear infinite;
+    }
+
+    .feature-card::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -90%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0,213,255,0.13), transparent);
+      transform: skewX(-18deg);
+      animation: cardSweep 6s ease-in-out infinite;
+    }
+
+    .feature-card:hover {
+      border-color: rgba(0,213,255,0.6);
+      box-shadow: 0 20px 50px rgba(0, 213, 255, 0.11), inset 0 1px 0 rgba(255,255,255,0.12);
+    }
+
+    .feature-value {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      margin-bottom: 14px;
+      font-family: "Space Grotesk", sans-serif;
+      color: #ffffff;
+      text-shadow: 0 0 16px rgba(0,213,255,0.54);
+    }
+
+    .feature-value span {
+      font-size: 2.25rem;
+      font-weight: 800;
+    }
+
+    .feature-value small {
+      color: var(--blue);
+      font-weight: 800;
+      letter-spacing: 0.06em;
+    }
+
+    .text-value {
+      font-size: 2rem;
+      font-weight: 800;
+    }
+
+    .feature-card h4 {
+      position: relative;
+      z-index: 2;
+      font-size: 0.88rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .feature-card p {
+      position: relative;
+      z-index: 2;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 0.88rem;
+    }
+
+    .aero-grid {
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .placeholder-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .media-placeholder {
+      min-height: 250px;
+      border-radius: var(--radius-md);
+      border: 1px dashed rgba(0, 213, 255, 0.42);
+      background:
+        linear-gradient(145deg, rgba(255,255,255,0.055), rgba(255,255,255,0.015)),
+        rgba(4, 13, 29, 0.72);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      color: var(--silver);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      background-size: cover;
+      background-position: center;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .media-placeholder::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,213,255,0.09) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,213,255,0.09) 1px, transparent 1px);
+      background-size: 24px 24px;
+      opacity: 0.7;
+      mask-image: radial-gradient(circle, black, transparent 86%);
+    }
+
+    .media-placeholder > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    .media-placeholder:hover {
+      transform: translateY(-5px);
+      border-color: rgba(0, 213, 255, 0.78);
+      box-shadow: 0 22px 60px rgba(0, 213, 255, 0.12);
+    }
+
+    .upload-icon {
+      width: 58px;
+      height: 58px;
+      border-radius: 18px;
+      border: 1px solid rgba(0, 213, 255, 0.45);
+      display: grid;
+      place-items: center;
+      color: var(--blue);
+      font-size: 1.7rem;
+      font-weight: 600;
+      background: rgba(0, 213, 255, 0.08);
+      box-shadow: inset 0 0 22px rgba(0,213,255,0.08);
+    }
+
+    .media-placeholder strong {
+      text-align: center;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 1.05rem;
+    }
+
+    .media-placeholder small {
+      color: var(--muted);
+      text-align: center;
+      padding: 0 18px;
+    }
+
+    .media-placeholder.has-image {
+      border-style: solid;
+    }
+
+    .media-placeholder.has-image::before {
+      background: linear-gradient(180deg, transparent, rgba(0,0,0,0.58));
+      opacity: 1;
+      mask-image: none;
+    }
+
+    .aero-copy {
+      padding: 34px;
+      border-radius: var(--radius-lg);
+    }
+
+    .aero-copy h3 {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 2rem;
+      letter-spacing: -0.04em;
+      margin-bottom: 14px;
+    }
+
+    .aero-copy p {
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 22px;
+    }
+
+    .tech-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .tech-item {
+      padding: 16px;
+      border-radius: 18px;
+      border: 1px solid rgba(0,213,255,0.17);
+      background: rgba(255,255,255,0.045);
+    }
+
+    .tech-item b {
+      display: block;
+      margin-bottom: 6px;
+      color: #ffffff;
+    }
+
+    .tech-item span {
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 0.92rem;
+    }
+
+    .gallery-shell {
+      position: relative;
+    }
+
+    .gallery-track {
+      display: flex;
+      gap: 18px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      padding: 4px 2px 18px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--blue) rgba(255,255,255,0.05);
+    }
+
+    .gallery-item {
+      flex: 0 0 min(390px, 86vw);
+      min-height: 310px;
+      scroll-snap-align: start;
+    }
+
+    .gallery-controls {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .circle-btn {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 1px solid rgba(0,213,255,0.35);
+      color: #ffffff;
+      background: rgba(255,255,255,0.055);
+      cursor: pointer;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .circle-btn:hover {
+      transform: translateY(-3px);
+      border-color: rgba(0,213,255,0.8);
+      box-shadow: var(--glow);
+    }
+
+    .team-layout {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .team-photo {
+      min-height: 590px;
+      border-radius: var(--radius-lg);
+    }
+
+    .team-cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .profile-card {
+      border-radius: 24px;
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .profile-card:hover {
+      border-color: rgba(0,213,255,0.65);
+      box-shadow: 0 22px 70px rgba(0, 213, 255, 0.12);
+    }
+
+    .avatar {
+      width: 94px;
+      height: 94px;
+      min-height: 94px;
+      border-radius: 26px;
+      margin-bottom: 18px;
+    }
+
+    .avatar .upload-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      font-size: 1.15rem;
+    }
+
+    .profile-card h3 {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 1.2rem;
+      margin-bottom: 5px;
+    }
+
+    .role {
+      color: var(--blue);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .bio {
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 0.92rem;
+    }
+
+    .contact-shell {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .contact-panel,
+    .contact-form {
+      border-radius: var(--radius-lg);
+      padding: clamp(26px, 4vw, 42px);
+    }
+
+    .contact-panel h3 {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1;
+      letter-spacing: -0.05em;
+      margin-bottom: 18px;
+    }
+
+    .contact-panel p {
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 26px;
+    }
+
+    .contact-method {
+      display: grid;
+      gap: 14px;
+      margin-bottom: 26px;
+    }
+
+    .contact-method span {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--silver);
+      font-weight: 700;
+    }
+
+    .contact-method i {
+      width: 35px;
+      height: 35px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      font-style: normal;
+      color: var(--blue);
+      background: rgba(0,213,255,0.08);
+      border: 1px solid rgba(0,213,255,0.18);
+    }
+
+    .socials {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .socials a {
+      width: 46px;
+      height: 46px;
+      border-radius: 15px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(0,213,255,0.25);
+      background: rgba(255,255,255,0.045);
+      color: #ffffff;
+      font-weight: 900;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .socials a:hover {
+      transform: translateY(-4px);
+      border-color: rgba(0,213,255,0.8);
+      box-shadow: var(--glow);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .input-group {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .input-group.full {
+      grid-column: 1 / -1;
+    }
+
+    .input-group label {
+      color: var(--silver);
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .input-group input,
+    .input-group textarea {
+      width: 100%;
+      border: 1px solid rgba(0,213,255,0.2);
+      border-radius: 16px;
+      padding: 15px 16px;
+      color: #ffffff;
+      background: rgba(255,255,255,0.055);
+      outline: none;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+    }
+
+    .input-group textarea {
+      min-height: 152px;
+      resize: vertical;
+    }
+
+    .input-group input:focus,
+    .input-group textarea:focus {
+      border-color: rgba(0,213,255,0.82);
+      box-shadow: 0 0 0 4px rgba(0,213,255,0.08), var(--glow);
+      background: rgba(255,255,255,0.075);
+    }
+
+    .form-status {
+      margin-top: 14px;
+      min-height: 24px;
+      color: var(--blue);
+      font-weight: 700;
+    }
+
+    .site-footer {
+      width: min(var(--max), calc(100% - 40px));
+      margin: 0 auto;
+      padding: 36px 0 48px;
+      color: var(--muted);
+      border-top: 1px solid rgba(0,213,255,0.12);
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      font-size: 0.92rem;
+    }
+
+    .tilt-card {
+      transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(var(--lift, 0px));
+      transition: transform 0.22s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .tilt-card:hover {
+      --lift: -5px;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal[data-delay="1"] { transition-delay: 0.08s; }
+    .reveal[data-delay="2"] { transition-delay: 0.16s; }
+    .reveal[data-delay="3"] { transition-delay: 0.24s; }
+    .reveal[data-delay="4"] { transition-delay: 0.32s; }
+
+    @keyframes slowSpin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes gridMove {
+      to { background-position: 0 48px, 48px 0; }
+    }
+
+    @keyframes float {
+      0%, 100% {
+        transform: translate3d(0, 0, 0) rotate(var(--rotate, 0deg));
+      }
+      50% {
+        transform: translate3d(0, -18px, 0) rotate(calc(var(--rotate, 0deg) + 2deg));
+      }
+    }
+
+    @keyframes rotorSpin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { transform: scale(0.95); opacity: 0.55; }
+      50% { transform: scale(1.08); opacity: 0.95; }
+    }
+
+    @keyframes dash {
+      to { stroke-dashoffset: -180; }
+    }
+
+    @keyframes scanPulse {
+      0%, 100% { transform: scale(0.92); opacity: 0.45; }
+      50% { transform: scale(1.05); opacity: 0.95; }
+    }
+
+    @keyframes cardSweep {
+      0%, 45% { transform: translateX(0) skewX(-18deg); opacity: 0; }
+      55% { opacity: 1; }
+      100% { transform: translateX(320%) skewX(-18deg); opacity: 0; }
+    }
+
+    @media (max-width: 1050px) {
+      .project-block,
+      .aero-grid,
+      .team-layout,
+      .contact-shell {
+        grid-template-columns: 1fr;
+      }
+
+      .feature-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .placeholder-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .render-card {
+        min-height: 460px;
+      }
+
+      .team-photo {
+        min-height: 420px;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .nav-shell {
+        grid-template-columns: 1fr;
+        border-radius: 26px;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .section {
+        width: min(100% - 26px, var(--max));
+        padding: 88px 0;
+      }
+
+      .hero {
+        padding-top: 120px;
+      }
+
+      .hero h1 {
+        letter-spacing: 0.08em;
+        margin-right: -0.08em;
+      }
+
+      .float-visual {
+        display: none;
+      }
+
+      .stat-strip,
+      .feature-grid,
+      .team-cards,
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .render-card {
+        min-height: 380px;
+        padding: 18px;
+      }
+
+      .project-copy,
+      .contact-panel,
+      .contact-form,
+      .aero-copy {
+        padding: 24px;
+      }
+
+      .site-footer {
+        width: min(100% - 26px, var(--max));
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation: none !important;
+        transition: none !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="starfield" aria-hidden="true"></canvas>
+  <div class="cursor-glow" aria-hidden="true"></div>
+  <div class="noise" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <nav class="nav-shell glass" aria-label="Primary navigation">
+      <div class="nav-links">
+        <a href="#projects">Projects</a>
+        <a href="#aerodynamics">Aerodynamics</a>
+        <a href="#gallery">Demos</a>
+      </div>
+
+      <a class="brand" href="#home" aria-label="ACEAERO Home">ACEAERO</a>
+
+      <div class="nav-links right">
+        <a href="#team">Team</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HERO SECTION -->
+    <section class="hero" id="home">
+      <div class="hero-aurora"></div>
+      <div class="hero-orb"></div>
+      <div class="grid-horizon"></div>
+
+      <div class="float-visual drone-left" aria-hidden="true">
+        <svg viewBox="0 0 260 120">
+          <path d="M22 62 L102 38 L132 52 L238 26 L178 68 L238 96 L132 70 L102 84 Z" fill="rgba(0,213,255,0.16)" stroke="rgba(151,232,255,0.8)" stroke-width="2"/>
+          <circle cx="62" cy="60" r="18" fill="none" stroke="rgba(0,213,255,0.65)" stroke-width="2"/>
+          <circle cx="202" cy="60" r="18" fill="none" stroke="rgba(0,213,255,0.65)" stroke-width="2"/>
+          <path d="M105 62 H158" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <div class="float-visual drone-right" aria-hidden="true">
+        <svg viewBox="0 0 260 120">
+          <path d="M22 62 L102 38 L132 52 L238 26 L178 68 L238 96 L132 70 L102 84 Z" fill="rgba(0,213,255,0.13)" stroke="rgba(151,232,255,0.75)" stroke-width="2"/>
+          <circle cx="62" cy="60" r="18" fill="none" stroke="rgba(0,213,255,0.55)" stroke-width="2"/>
+          <circle cx="202" cy="60" r="18" fill="none" stroke="rgba(0,213,255,0.55)" stroke-width="2"/>
+          <path d="M105 62 H158" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <div class="float-visual jet-bottom" aria-hidden="true">
+        <svg viewBox="0 0 420 120">
+          <path d="M18 65 C122 20 261 23 400 62 C255 105 122 103 18 65Z" fill="rgba(0,213,255,0.1)" stroke="rgba(151,232,255,0.5)" stroke-width="2"/>
+          <path d="M158 58 L252 15 L224 62 L252 105 Z" fill="rgba(255,255,255,0.12)" stroke="rgba(0,213,255,0.55)" stroke-width="2"/>
+        </svg>
+      </div>
+
+      <div class="hero-content">
+        <div class="hero-kicker reveal">Autonomous Aerospace • AI Systems • Defense Innovation</div>
+        <h1 class="reveal" data-delay="1">ACEAERO</h1>
+        <p class="tagline reveal" data-delay="2">Engineering the Future of Autonomous Aerial Defense.</p>
+        <p class="hero-copy reveal" data-delay="3">
+          A cinematic startup portfolio for advanced aerial platforms, intelligent flight systems,
+          and premium aerospace engineering built for investors, demonstrations, and exhibitions.
+        </p>
+
+        <div class="hero-actions reveal" data-delay="4">
+          <a class="btn btn-primary" href="#projects"><span>Explore Projects</span><em></em></a>
+          <a class="btn btn-ghost" href="#contact"><span>Contact Us</span><em></em></a>
+        </div>
+
+        <div class="stat-strip reveal" data-delay="4">
+          <div class="stat">
+            <b><span data-count="300">300</span></b>
+            <small>km/h concept speed</small>
+          </div>
+          <div class="stat">
+            <b><span data-count="10">10</span></b>
+            <small>km mission radius</small>
+          </div>
+          <div class="stat">
+            <b><span data-count="16">16</span></b>
+            <small>N thrust architecture</small>
+          </div>
+          <div class="stat">
+            <b><span data-count="24">24</span>/7</b>
+            <small>AI telemetry vision</small>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECT SHOWCASE -->
+    <section class="section" id="projects">
+      <div class="section-header center reveal">
+        <span class="eyebrow">Portfolio Systems</span>
+        <h2>Project Showcase</h2>
+        <p class="lead">
+          Two premium aerospace concepts presented with investor-ready storytelling,
+          futuristic interface design, animated feature cards, and cinematic engineering visuals.
+        </p>
+      </div>
+
+      <!-- PROJECT 1 -->
+      <article class="project-block reveal">
+        <div class="render-card glass tilt-card">
+          <div class="render-topbar"><span>AI Concept Render</span><i></i></div>
+
+          <svg class="render-svg drone-svg" viewBox="0 0 900 560" role="img" aria-label="Futuristic XID-300 interceptor drone render">
+            <defs>
+              <linearGradient id="xidBody" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#ffffff" stop-opacity="0.92"/>
+                <stop offset="48%" stop-color="#8fdfff" stop-opacity="0.7"/>
+                <stop offset="100%" stop-color="#1d6dff" stop-opacity="0.88"/>
+              </linearGradient>
+              <filter id="xidGlow">
+                <feGaussianBlur stdDeviation="4" result="blur"/>
+                <feMerge>
+                  <feMergeNode in="blur"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+              <radialGradient id="xidCore" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#00d5ff" stop-opacity="0.95"/>
+                <stop offset="100%" stop-color="#00d5ff" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+
+            <g transform="translate(450 280)" opacity="0.72">
+              <circle class="scan-circle" r="190" fill="none" stroke="rgba(0,213,255,0.34)" stroke-width="2"/>
+              <circle class="scan-circle" r="125" fill="none" stroke="rgba(255,255,255,0.16)" stroke-width="1"/>
+              <path class="flow-line" d="M-330 0 H330" stroke="rgba(0,213,255,0.42)" stroke-width="2"/>
+              <path class="flow-line" d="M0 -205 V205" stroke="rgba(0,213,255,0.22)" stroke-width="1"/>
+            </g>
+
+            <g filter="url(#xidGlow)">
+              <ellipse cx="450" cy="288" rx="170" ry="34" fill="url(#xidCore)" opacity="0.34"/>
+
+              <path d="M88 290 L314 218 L437 258 L598 168 L520 286 L599 400 L437 318 L314 356 Z"
+                    fill="rgba(0,213,255,0.16)" stroke="rgba(179,239,255,0.82)" stroke-width="3"/>
+              <path d="M812 290 L586 218 L463 258 L302 168 L380 286 L301 400 L463 318 L586 356 Z"
+                    fill="rgba(0,213,255,0.16)" stroke="rgba(179,239,255,0.82)" stroke-width="3"/>
+
+              <path d="M258 288 C338 225 560 225 642 288 C560 348 338 348 258 288Z"
+                    fill="url(#xidBody)" stroke="#dff8ff" stroke-width="3"/>
+              <path d="M334 286 C388 252 512 252 566 286 C512 318 388 318 334 286Z"
+                    fill="rgba(2,6,17,0.75)" stroke="rgba(0,213,255,0.8)" stroke-width="2"/>
+
+              <path d="M423 234 L450 142 L477 234 Z" fill="rgba(255,255,255,0.75)" stroke="rgba(0,213,255,0.65)" stroke-width="2"/>
+              <path d="M423 340 L450 430 L477 340 Z" fill="rgba(255,255,255,0.45)" stroke="rgba(0,213,255,0.55)" stroke-width="2"/>
+
+              <g class="rotor">
+                <ellipse cx="160" cy="288" rx="72" ry="13" fill="rgba(0,213,255,0.28)"/>
+                <ellipse cx="160" cy="288" rx="13" ry="72" fill="rgba(0,213,255,0.18)"/>
+              </g>
+              <circle cx="160" cy="288" r="21" fill="#07111f" stroke="#8feaff" stroke-width="3"/>
+
+              <g class="rotor">
+                <ellipse cx="740" cy="288" rx="72" ry="13" fill="rgba(0,213,255,0.28)"/>
+                <ellipse cx="740" cy="288" rx="13" ry="72" fill="rgba(0,213,255,0.18)"/>
+              </g>
+              <circle cx="740" cy="288" r="21" fill="#07111f" stroke="#8feaff" stroke-width="3"/>
+
+              <circle cx="450" cy="286" r="10" fill="#00d5ff"/>
+            </g>
+
+            <g opacity="0.88">
+              <path d="M648 152 h120 v48 h-120z" fill="rgba(0,213,255,0.08)" stroke="rgba(0,213,255,0.55)"/>
+              <path d="M668 176 h68" stroke="#00d5ff" stroke-width="3"/>
+              <path d="M132 390 h150 v52 h-150z" fill="rgba(0,213,255,0.07)" stroke="rgba(0,213,255,0.45)"/>
+              <path d="M154 416 h96" stroke="#8feaff" stroke-width="3"/>
+            </g>
+          </svg>
+
+          <div class="render-caption"><span>XID-300 / autonomous interceptor visualization</span></div>
+        </div>
+
+        <div class="project-copy glass">
+          <span class="project-number">Project 01</span>
+          <h3>XID-300 High Speed Interceptor Drone</h3>
+          <p>
+            XID-300 is conceived as a compact, high-speed interceptor platform for rapid aerial response missions,
+            combining disciplined aerodynamic design with intelligent autonomy. Its architecture emphasizes high-speed
+            aerial interception in controlled defense environments, where immediate launch readiness, target awareness,
+            and precise flight behavior matter. An onboard AI navigation layer fuses inertial, visual, and telemetry
+            inputs to assist route planning, obstacle avoidance, and mission supervision without overloading operators.
+            The airframe is supported by an advanced propulsion system tuned for rapid acceleration, efficient thrust
+            delivery, and stable thermal performance during demanding maneuvers. Real-time target tracking interfaces
+            present operators with clear situational context, while autonomy routines help maintain pursuit geometry
+            and safe flight envelopes. Tactical defense applications include perimeter protection, training
+            demonstrations, counter-intrusion evaluation, and responsive aerial monitoring for critical infrastructure.
+            Every surface, intake, mount, and control interface is treated as part of a precision engineering workflow,
+            balancing mass, rigidity, power delivery, and maintainability. The result is a startup-grade interceptor
+            concept engineered for speed, resilience, and repeatable performance, ready to be presented to investors,
+            technical partners, and aerospace exhibition audiences as a next-generation autonomous defense innovation.
+            Its modular digital backbone also simplifies testing, analytics, fleet learning, and future sensor
+            integration across evolving mission requirements safely.
+          </p>
+        </div>
+
+        <div class="feature-grid">
+          <div class="feature-card tilt-card">
+            <div class="feature-value"><span data-count="300">300</span><small>km/h</small></div>
+            <h4>Max Speed</h4>
+            <p>Rapid response envelope designed for swift intercept positioning and mission-tempo agility.</p>
+          </div>
+
+          <div class="feature-card tilt-card">
+            <div class="feature-value"><span data-count="10">10</span><small>kW</small></div>
+            <h4>Battery</h4>
+            <p>High-density power architecture supports sustained avionics, compute, and propulsion demand.</p>
+          </div>
+
+          <div class="feature-card tilt-card">
+            <div class="feature-value"><span data-count="16">16</span><small>N</small></div>
+            <h4>Thrust</h4>
+            <p>Optimized lift-to-thrust balance delivers decisive climb authority and maneuver control.</p>
+          </div>
+
+          <div class="feature-card tilt-card">
+            <div class="feature-value"><span data-count="10">10</span><small>km</small></div>
+            <h4>Range</h4>
+            <p>Mission radius for protected-site coverage, test corridors, and rapid tactical observation.</p>
+          </div>
+
+          <div class="feature-card tilt-card">
+            <div class="feature-value text-value">AI</div>
+            <h4>Guided Navigation</h4>
+            <p>Onboard autonomy streamlines route planning, obstacle awareness, and operator oversight.</p>
+          </div>
+        </div>
+      </article>
+
+      <!-- PROJECT 2 -->
+      <article class="project-block reveal">
+        <div class="project-copy glass">
+          <span class="project-number">Project 02</span>
+          <h3>FIXED WING Autonomous Aircraft</h3>
+          <p>
+            FIXED WING is a long-endurance autonomous aircraft concept designed for stable, efficient flight across
+            wide operational areas. The platform's aerodynamic stability begins with a clean wing planform, balanced
+            control surfaces, and carefully managed center-of-gravity targets that support predictable handling during
+            launch, cruise, and recovery. Its long-range flight efficiency is driven by low-drag shaping, optimized lift
+            distribution, and an energy-aware flight profile that conserves onboard power while extending mission
+            coverage. A lightweight structure uses advanced composite-inspired layouts, reinforced mounting zones, and
+            modular service access to reduce mass without sacrificing durability. AI-assisted flight control provides
+            smoother waypoint tracking, adaptive attitude correction, and intelligent health monitoring, helping
+            operators focus on mission decisions rather than constant manual intervention. Surveillance and
+            reconnaissance applications include terrain observation, infrastructure inspection, maritime awareness,
+            border-area monitoring, and environmental mapping where quiet endurance and reliable data collection are
+            essential. The aircraft is presented as an investor-ready technology platform: scalable, maintainable, and
+            prepared for sensor integration, payload experimentation, and fleet-level analytics. By combining aerospace
+            discipline with modern autonomy, FIXED WING demonstrates how efficient fixed-wing systems can deliver
+            trustworthy situational intelligence for commercial, civil, and defense-adjacent missions. A modular
+            avionics bay enables upgrades, diagnostics, and future communications integration for evolving field
+            requirements.
+          </p>
+        </div>
+
+        <div class="render-card glass tilt-card">
+          <div class="render-topbar"><span>Aircraft Concept Visual</span><i></i></div>
+
+          <svg class="render-svg fixed-svg" viewBox="0 0 900 560" role="img" aria-label="Professional fixed wing autonomous aircraft render">
+            <defs>
+              <linearGradient id="wingBody" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#f8fbff" stop-opacity="0.95"/>
+                <stop offset="50%" stop-color="#9edfff" stop-opacity="0.72"/>
+                <stop offset="100%" stop-color="#2b6dff" stop-opacity="0.86"/>
+              </linearGradient>
+              <filter id="wingGlow">
+                <feGaussianBlur stdDeviation="4" result="blur"/>
+                <feMerge>
+                  <feMergeNode in="blur"/>
+                  <feMergeNode in="SourceGraphic"/>
+                </feMerge>
+              </filter>
+            </defs>
+
+            <g opacity="0.72">
+              <path class="flow-line" d="M70 220 C260 130 560 130 820 220" fill="none" stroke="rgba(0,213,255,0.34)" stroke-width="2"/>
+              <path class="flow-line" d="M60 300 C270 230 580 230 840 305" fill="none" stroke="rgba(143,234,255,0.32)" stroke-width="2"/>
+              <path class="flow-line" d="M88 380 C298 470 578 462 816 372" fill="none" stroke="rgba(0,213,255,0.24)" stroke-width="2"/>
+            </g>
+
+            <g filter="url(#wingGlow)">
+              <ellipse cx="450" cy="322" rx="240" ry="34" fill="rgba(0,213,255,0.13)"/>
+
+              <path d="M72 314 C214 244 370 226 828 268 C660 314 444 334 72 314Z"
+                    fill="rgba(0,213,255,0.13)" stroke="rgba(183,241,255,0.74)" stroke-width="3"/>
+              <path d="M238 288 L463 190 L687 288 C555 315 373 315 238 288Z"
+                    fill="url(#wingBody)" stroke="#e1f8ff" stroke-width="3"/>
+              <path d="M238 326 L463 374 L690 326 C544 352 381 352 238 326Z"
+                    fill="rgba(96,174,255,0.38)" stroke="rgba(143,234,255,0.6)" stroke-width="2"/>
+
+              <path d="M286 303 C382 246 524 246 618 303 C526 354 381 354 286 303Z"
+                    fill="url(#wingBody)" stroke="rgba(255,255,255,0.88)" stroke-width="3"/>
+              <path d="M410 300 C430 284 470 284 492 300 C470 317 430 317 410 300Z"
+                    fill="rgba(2,6,17,0.72)" stroke="rgba(0,213,255,0.74)" stroke-width="2"/>
+
+              <path d="M610 300 L782 236 L740 304 L782 372 Z"
+                    fill="rgba(255,255,255,0.52)" stroke="rgba(0,213,255,0.58)" stroke-width="2"/>
+              <circle cx="282" cy="303" r="16" fill="#00d5ff"/>
+            </g>
+
+            <g opacity="0.84">
+              <circle class="scan-circle" cx="450" cy="300" r="192" fill="none" stroke="rgba(0,213,255,0.22)" stroke-width="2"/>
+              <path d="M118 152 h156 v52 h-156z" fill="rgba(0,213,255,0.06)" stroke="rgba(0,213,255,0.5)"/>
+              <path d="M142 178 h98" stroke="#00d5ff" stroke-width="3"/>
+              <path d="M626 386 h142 v52 h-142z" fill="rgba(0,213,255,0.06)" stroke="rgba(0,213,255,0.45)"/>
+              <path d="M650 412 h82" stroke="#8feaff" stroke-width="3"/>
+            </g>
+          </svg>
+
+          <div class="render-caption"><span>FIXED WING / endurance aircraft visualization</span></div>
+        </div>
+
+        <div class="feature-grid">
+          <div class="feature-card tilt-card">
+            <div class="feature-value"><span data-count="90">90</span><small>min</small></div>
+            <h4>Endurance</h4>
+            <p>Efficient cruise profiles extend time on station while keeping power budgets predictable.</p>
+          </div>
+
+          <div class="feature-card tilt-card">
+            <div class="feature-value"><span data-count="2.4" data-decimals="1">2.4</span><small>m</small></div>
+            <h4>Wingspan</h4>
+            <p>A stable planform improves glide efficiency, payload spacing, and low-speed handling.</p>
+          </div>
+
+          <div class="feature-card tilt-card">
+            <div class="feature-value"><span data-count="45">45</span><small>km</small></div>
+            <h4>Range</h4>
+            <p>Extended route coverage supports corridor monitoring, mapping, and broad-area reconnaissance.</p>
+          </div>
+
+          <div class="feature-card tilt-card">
+            <div class="feature-value text-value">ISR</div>
+            <h4>Modular Payload</h4>
+            <p>Sensor-ready bay enables cameras, telemetry modules, and mission-specific integration.</p>
+          </div>
+
+          <div class="feature-card tilt-card">
+            <div class="feature-value text-value">AI</div>
+            <h4>Flight Control</h4>
+            <p>Autonomy assists waypoint following, stabilization, and flight-health awareness.</p>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- AERODYNAMICS SECTION -->
+    <section class="section" id="aerodynamics">
+      <div class="section-header reveal">
+        <span class="eyebrow">Engineering Layer</span>
+        <h2>Aerodynamic Engineering</h2>
+        <p class="lead">
+          Dedicated space for aerodynamic model images, wind-flow simulations, and technical diagrams
+          that communicate precision engineering to investors and aerospace partners.
+        </p>
+      </div>
+
+      <div class="aero-grid reveal">
+        <div class="placeholder-grid">
+          <label class="media-placeholder upload-slot">
+            <input type="file" accept="image/*" hidden>
+            <span class="upload-icon">+</span>
+            <strong>Aerodynamic Model Image</strong>
+            <small>Click to upload or display a CAD/render image</small>
+          </label>
+
+          <label class="media-placeholder upload-slot">
+            <input type="file" accept="image/*" hidden>
+            <span class="upload-icon">+</span>
+            <strong>Wind Flow Simulation</strong>
+            <small>Click to upload CFD, airflow, or smoke-trail visuals</small>
+          </label>
+
+          <label class="media-placeholder upload-slot">
+            <input type="file" accept="image/*" hidden>
+            <span class="upload-icon">+</span>
+            <strong>Technical Diagrams</strong>
+            <small>Click to upload wing, body, propulsion, or structure diagrams</small>
+          </label>
+        </div>
+
+        <div class="aero-copy glass tilt-card">
+          <h3>Precision Airflow Systems</h3>
+          <p>
+            ACEAERO’s aerodynamic workflow focuses on drag reduction, stability optimization,
+            precision airflow engineering, and advanced lightweight materials. Each concept is
+            presented through a startup-grade engineering lens: efficient surfaces, controlled
+            flow separation, optimized lift distribution, and practical manufacturability.
+          </p>
+
+          <div class="tech-list">
+            <div class="tech-item">
+              <b>Drag Reduction</b>
+              <span>Clean silhouettes, refined transitions, and low-resistance layouts support efficient mission performance.</span>
+            </div>
+            <div class="tech-item">
+              <b>Stability Optimization</b>
+              <span>Balanced control surfaces and predictable center-of-pressure behavior improve flight confidence.</span>
+            </div>
+            <div class="tech-item">
+              <b>Advanced Materials</b>
+              <span>Lightweight structures help improve endurance, responsiveness, payload flexibility, and durability.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DEMO GALLERY SECTION -->
+    <section class="section" id="gallery">
+      <div class="section-header center reveal">
+        <span class="eyebrow">Live Proof</span>
+        <h2>Live Demonstrations</h2>
+        <p class="lead">
+          Upload or display drone testing photos, flight demonstrations, prototype development images,
+          and team-working visuals in a modern cinematic carousel.
+        </p>
+      </div>
+
+      <div class="gallery-shell reveal">
+        <div class="gallery-track">
+          <label class="media-placeholder gallery-item upload-slot">
+            <input type="file" accept="image/*" hidden>
+            <span class="upload-icon">+</span>
+            <strong>Drone Testing Photos</strong>
+            <small>Upload field-test, launch, or system-check visuals</small>
+          </label>
+
+          <label class="media-placeholder gallery-item upload-slot">
+            <input type="file" accept="image/*" hidden>
+            <span class="upload-icon">+</span>
+            <strong>Flight Demonstrations</strong>
+            <small>Upload in-air demonstration or flight-path images</small>
+          </label>
+
+          <label class="media-placeholder gallery-item upload-slot">
+            <input type="file" accept="image/*" hidden>
+            <span class="upload-icon">+</span>
+            <strong>Prototype Development</strong>
+            <small>Upload lab, workshop, or prototype build photos</small>
+          </label>
+
+          <label class="media-placeholder gallery-item upload-slot">
+            <input type="file" accept="image/*" hidden>
+            <span class="upload-icon">+</span>
+            <strong>Team Working Photos</strong>
+            <small>Upload engineering, testing, or collaboration images</small>
+          </label>
+        </div>
+
+        <div class="gallery-controls">
+          <button class="circle-btn" type="button" id="galleryPrev" aria-label="Previous gallery item">←</button>
+          <button class="circle-btn" type="button" id="galleryNext" aria-label="Next gallery item">→</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TEAM SECTION -->
+    <section class="section" id="team">
+      <div class="section-header reveal">
+        <span class="eyebrow">Human Systems</span>
+        <h2>Our Team</h2>
+        <p class="lead">
+          A premium team section for founders, engineers, AI developers, flight-control specialists,
+          and design leads driving ACEAERO’s aerospace innovation.
+        </p>
+      </div>
+
+      <div class="team-layout reveal">
+        <label class="media-placeholder team-photo upload-slot">
+          <input type="file" accept="image/*" hidden>
+          <span class="upload-icon">+</span>
+          <strong>Large Team Photograph</strong>
+          <small>Click to upload your team photograph</small>
+        </label>
+
+        <div class="team-cards">
+          <article class="profile-card glass tilt-card">
+            <label class="media-placeholder avatar upload-slot">
+              <input type="file" accept="image/*" hidden>
+              <span class="upload-icon">+</span>
+            </label>
+            <h3>Smit Sheth</h3>
+            <div class="role">Founder</div>
+            <p class="bio">Short bio placeholder for strategic leadership, investor relations, and aerospace vision.</p>
+          </article>
+
+          <article class="profile-card glass tilt-card">
+            <label class="media-placeholder avatar upload-slot">
+              <input type="file" accept="image/*" hidden>
+              <span class="upload-icon">+</span>
+            </label>
+            <h3>Gourav Anjana</h3>
+            <div class="role">Mechanical Lead & CAD Engineer</div>
+            <p class="bio">Short bio placeholder for airframe design, propulsion integration, and performance validation.</p>
+          </article>
+
+          <article class="profile-card glass tilt-card">
+            <label class="media-placeholder avatar upload-slot">
+              <input type="file" accept="image/*" hidden>
+              <span class="upload-icon">+</span>
+            </label>
+            <h3>Harshit Chaturvedi</h3>
+            <div class="role">Founding Developer</div>
+            <p class="bio">Short bio placeholder for autonomy software, telemetry intelligence, and mission interfaces.</p>
+          </article>
+
+          <article class="profile-card glass tilt-card">
+            <label class="media-placeholder avatar upload-slot">
+              <input type="file" accept="image/*" hidden>
+              <span class="upload-icon">+</span>
+            </label>
+            <h3>Ghanshyam Sharma</h3>
+            <div class="role">CTO</div>
+            <p class="bio">Short bio placeholder for stabilization, navigation logic, and flight safety validation.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section class="section" id="contact">
+      <div class="section-header center reveal">
+        <span class="eyebrow">Get In Touch</span>
+        <h2>Contact ACEAERO</h2>
+        <p class="lead">Let’s build the future of aerospace innovation together.</p>
+      </div>
+
+      <div class="contact-shell reveal">
+        <div class="contact-panel glass">
+          <h3>Ready for investors, partners, and aerospace exhibitions.</h3>
+          <p>
+            Use this premium contact section to connect with partners, schedule a demo,
+            request a technical presentation, or start a strategic aerospace conversation.
+          </p>
+
+          <div class="contact-method">
+            <span><i>@</i> acexaero@gmail.com</span>
+            <span><i>☎</i> +91 83198 30104</span>
+            <span><i>⌁</i> Aerospace Innovation Studio ,IDEA LAb , AITR</span>
+          </div>
+
+          <div class="socials" aria-label="Social media links">
+            <a href="#" aria-label="LinkedIn">in</a>
+            <a href="#" aria-label="X">X</a>
+            <a href="#" aria-label="YouTube">▶</a>
+            <a href="#" aria-label="Website">◎</a>
+          </div>
+        </div>
+
+        <form class="contact-form glass" id="contactForm">
+          <div class="form-grid">
+            <div class="input-group">
+              <label for="name">Name</label>
+              <input id="name" name="name" type="text" placeholder="Your name" autocomplete="name">
+            </div>
+
+            <div class="input-group">
+              <label for="email">Email</label>
+              <input id="email" name="email" type="email" placeholder="you@example.com" autocomplete="email" required>
+            </div>
+
+            <div class="input-group">
+              <label for="phone">Phone</label>
+              <input id="phone" name="phone" type="tel" placeholder="+1 000 000 0000" autocomplete="tel">
+            </div>
+
+            <div class="input-group">
+              <label for="subject">Subject</label>
+              <input id="subject" name="subject" type="text" placeholder="Partnership / Demo / Investment">
+            </div>
+
+            <div class="input-group full">
+              <label for="message">Message</label>
+              <textarea id="message" name="message" placeholder="Tell us about your aerospace innovation goals..." required></textarea>
+            </div>
+          </div>
+
+          <button class="btn btn-primary" type="submit">
+            <span>Send Message</span><em></em>
+          </button>
+
+          <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>© 2025 ACEAERO. Aerospace innovation portfolio.</span>
+    <span>Dark UI • Glassmorphism • Cinematic startup-grade design</span>
+  </footer>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      /* Animated starfield */
+      const canvas = document.getElementById("starfield");
+      const ctx = canvas ? canvas.getContext("2d") : null;
+
+      if (canvas && ctx) {
+        let w = window.innerWidth;
+        let h = window.innerHeight;
+        let dpr = Math.min(window.devicePixelRatio || 1, 2);
+        let stars = [];
+
+        const createStars = () => {
+          const count = Math.min(220, Math.max(90, Math.floor((w * h) / 9000)));
+          stars = Array.from({ length: count }, () => ({
+            x: Math.random() * w,
+            y: Math.random() * h,
+            r: Math.random() * 1.6 + 0.25,
+            speed: Math.random() * 0.45 + 0.08,
+            drift: (Math.random() - 0.5) * 0.15,
+            alpha: Math.random() * 0.7 + 0.2
+          }));
+        };
+
+        const resize = () => {
+          w = window.innerWidth;
+          h = window.innerHeight;
+          dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+          canvas.width = Math.floor(w * dpr);
+          canvas.height = Math.floor(h * dpr);
+          canvas.style.width = w + "px";
+          canvas.style.height = h + "px";
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          createStars();
+        };
+
+        const animateStars = () => {
+          ctx.clearRect(0, 0, w, h);
+
+          for (const s of stars) {
+            s.y += s.speed;
+            s.x += s.drift;
+
+            if (s.y > h + 10) {
+              s.y = -10;
+              s.x = Math.random() * w;
+            }
+
+            if (s.x < -10) s.x = w + 10;
+            if (s.x > w + 10) s.x = -10;
+
+            ctx.beginPath();
+            ctx.fillStyle = `rgba(170, 234, 255, ${s.alpha})`;
+            ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+            ctx.fill();
+          }
+
+          requestAnimationFrame(animateStars);
+        };
+
+        resize();
+        animateStars();
+        window.addEventListener("resize", resize);
+      }
+
+      /* Cursor glow */
+      const cursorGlow = document.querySelector(".cursor-glow");
+      const finePointer = window.matchMedia("(pointer: fine)").matches;
+
+      if (cursorGlow && finePointer) {
+        window.addEventListener("pointermove", (event) => {
+          cursorGlow.style.left = `${event.clientX}px`;
+          cursorGlow.style.top = `${event.clientY}px`;
+        });
+      } else if (cursorGlow) {
+        cursorGlow.style.display = "none";
+      }
+
+      /* Reveal animations */
+      const revealElements = document.querySelectorAll(".reveal");
+
+      if ("IntersectionObserver" in window) {
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("in-view");
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.16 });
+
+        revealElements.forEach((element) => revealObserver.observe(element));
+      } else {
+        revealElements.forEach((element) => element.classList.add("in-view"));
+      }
+
+      /* Animated counters */
+      const counters = document.querySelectorAll("[data-count]");
+
+      const animateCounter = (element) => {
+        const target = Number(element.dataset.count);
+        if (Number.isNaN(target)) return;
+
+        const decimals = Number(element.dataset.decimals || (Number.isInteger(target) ? 0 : 1));
+        const duration = 1500;
+        const startTime = performance.now();
+
+        const tick = (now) => {
+          const progress = Math.min((now - startTime) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const value = target * eased;
+
+          element.textContent = value.toFixed(decimals);
+
+          if (progress < 1) {
+            requestAnimationFrame(tick);
+          } else {
+            element.textContent = target.toFixed(decimals);
+          }
+        };
+
+        requestAnimationFrame(tick);
+      };
+
+      if ("IntersectionObserver" in window) {
+        const counterObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              animateCounter(entry.target);
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.45 });
+
+        counters.forEach((counter) => counterObserver.observe(counter));
+      } else {
+        counters.forEach(animateCounter);
+      }
+
+      /* 3D hover tilt */
+      const tiltCards = document.querySelectorAll(".tilt-card");
+      const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+      if (canHover) {
+        tiltCards.forEach((card) => {
+          card.addEventListener("mousemove", (event) => {
+            const rect = card.getBoundingClientRect();
+            const x = (event.clientX - rect.left) / rect.width - 0.5;
+            const y = (event.clientY - rect.top) / rect.height - 0.5;
+
+            card.style.setProperty("--rx", `${-y * 7}deg`);
+            card.style.setProperty("--ry", `${x * 7}deg`);
+          });
+
+          card.addEventListener("mouseleave", () => {
+            card.style.setProperty("--rx", "0deg");
+            card.style.setProperty("--ry", "0deg");
+          });
+        });
+      }
+
+      /* Gallery controls */
+      const galleryTrack = document.querySelector(".gallery-track");
+      const galleryPrev = document.getElementById("galleryPrev");
+      const galleryNext = document.getElementById("galleryNext");
+
+      if (galleryTrack && galleryPrev && galleryNext) {
+        const scrollStep = () => Math.min(430, galleryTrack.clientWidth * 0.86);
+
+        galleryPrev.addEventListener("click", () => {
+          galleryTrack.scrollBy({ left: -scrollStep(), behavior: "smooth" });
+        });
+
+        galleryNext.addEventListener("click", () => {
+          galleryTrack.scrollBy({ left: scrollStep(), behavior: "smooth" });
+        });
+      }
+
+      /* Local image upload previews for placeholders */
+      const uploadInputs = document.querySelectorAll(".upload-slot input[type='file']");
+
+      uploadInputs.forEach((input) => {
+        input.addEventListener("change", () => {
+          const file = input.files && input.files[0];eaa 
+          const slot = input.closest(".upload-slot");
+
+          if (!file || !slot) return;
+
+          if (!file.type.startsWith("image/")) {
+            alert("Please upload an image file.");
+            input.value = "";
+            return;
+          }
+
+          const imageUrl = URL.createObjectURL(file);
+
+          slot.style.backgroundImage =
+            `linear-gradient(180deg, rgba(2,6,17,0.18), rgba(2,6,17,0.78)), url("${imageUrl}")`;
+
+          slot.classList.add("has-image");
+
+          const icon = slot.querySelector(".upload-icon");
+          const hint = slot.querySelector("small");
+
+          if (icon) icon.textContent = "✓";
+          if (hint) hint.textContent = "Local preview loaded";
+        });
+      });
+
+      /* Contact form demo behavior */
+      const contactForm = document.getElementById("contactForm");
+      const formStatus = document.getElementById("formStatus");
+
+      if (contactForm && formStatus) {
+        contactForm.addEventListener("submit", (event) => {
+          event.preventDefault();
+
+          formStatus.textContent = "Transmission queued. Thank you — ACEAERO will respond shortly.";
+          contactForm.reset();
+
+          window.setTimeout(() => {
+            formStatus.textContent = "";
+          }, 5000);
+        });
+      }
+    });
+  </script>
+</body>
+</html>
